@@ -137,7 +137,7 @@ UniswapV3Pool.Swap.handlerWithLoader({
         pool.token0Price = prices[0];
         pool.token1Price = prices[1];
         context.Pool.set(pool);
-
+        
         // update USD pricing
         bundle.ethPriceUSD = await pricing.getNativePriceInUSD(
             context,
