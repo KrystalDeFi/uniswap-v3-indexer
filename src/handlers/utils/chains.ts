@@ -255,8 +255,8 @@ export const CHAIN_CONFIGS: { [chainId: number]: ChainConfig } = {
     },
   },
   [ChainId.BSC]: {
-    factoryAddress: "0xdb1d10011ad0ff90774d0c6bb92e5c5c8b4461f7",
-    stablecoinWrappedNativePoolId: "0x6fe9e9de56356f7edbfcbb29fab7cd69471a4869",
+    factoryAddress: "0x0bfbcf9fa4f9c56b0f40a671ad40e0805a091865",
+    stablecoinWrappedNativePoolId: "0x36696169c63e42cd08ce11f5deebbcebae652050",
     stablecoinIsToken0: true,
     wrappedNativeAddress: "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c", // WBNB
     minimumNativeLocked: new BigDecimal("100"),

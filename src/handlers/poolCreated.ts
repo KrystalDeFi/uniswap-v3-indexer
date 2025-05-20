@@ -3,6 +3,7 @@ import { ZERO_BD, ZERO_BI, ONE_BI, ADDRESS_ZERO } from "./utils/constants";
 import { CHAIN_CONFIGS } from "./utils/chains";
 import { isAddressInList } from "./utils/index";
 import { getTokenMetadataEffect } from "./utils/tokenMetadataEffect";
+import * as pricing from './utils/pricing';
 
 UniswapV3Factory.PoolCreated.contractRegister(({ event, context }) => {
   context.addUniswapV3Pool(event.params.pool);
@@ -55,7 +56,7 @@ UniswapV3Factory.PoolCreated.handlerWithLoader({
       token1Address,
     } = loaderReturn;
 
-    const { factoryAddress, poolsToSkip, whitelistTokens } =
+    const { factoryAddress, poolsToSkip, whitelistTokens, nativeTokenDetails } =
       CHAIN_CONFIGS[event.chainId];
 
     // temp fix
