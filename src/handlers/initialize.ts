@@ -33,15 +33,13 @@ UniswapV3Pool.Initialize.handlerWithLoader({
             wrappedNativeAddress,
             stablecoinAddresses,
             minimumNativeLocked,
-            whitelistTokens,
-            nativeTokenDetails
         } = CHAIN_CONFIGS[event.chainId];
     
         // update pool sqrt price and tick
         pool = {
             ...pool,
             sqrtPrice: event.params.sqrtPriceX96,
-            tick: event.params.tick,
+            tick: event.params.tick
         };
         
         context.Pool.set(pool);

@@ -33,7 +33,7 @@ export async function getNativePriceInUSD(
   const poolId = `${chainId}-${stablecoinWrappedNativePoolId}`;
   const stablecoinWrappedNativePool = await context.Pool.get(poolId);
 
-  if (stablecoinWrappedNativePool && stablecoinWrappedNativePool.token0Price.gt(ZERO_BD)) {
+  if (stablecoinWrappedNativePool) {
     return stablecoinIsToken0
       ? stablecoinWrappedNativePool.token0Price
       : stablecoinWrappedNativePool.token1Price;
