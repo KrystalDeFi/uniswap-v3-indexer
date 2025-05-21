@@ -111,7 +111,7 @@ const getRpcUrl = (chainId: number): string => {
     case 43114:
       return process.env.AVALANCHE_RPC_URL || "https://avalanche.drpc.org";
     case 56:
-      return process.env.BSC_RPC_URL || "https://bsc.drpc.org";
+      return process.env.ENVIO_BSC_RPC_URL || "https://bsc.drpc.org";
     case 81457:
       return process.env.BLAST_RPC_URL || "https://blast.drpc.org";
     case 7777777:
