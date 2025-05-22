@@ -76,31 +76,31 @@ UniswapV3Pool.Burn.handlerWithLoader({
         }
 
         // burn entity
-        const transaction = await loadTransaction(
-            event.transaction.hash,
-            event.block.number,
-            timestamp,
-            event.transaction.gasPrice || ZERO_BI,
-            context
-        );
+        // const transaction = await loadTransaction(
+        //     event.transaction.hash,
+        //     event.block.number,
+        //     timestamp,
+        //     event.transaction.gasPrice || ZERO_BI,
+        //     context
+        // );
 
-        const burn: Burn = {
-            id: `${transaction.id}-${event.logIndex}`,
-            transaction_id: transaction.id,
-            timestamp: transaction.timestamp,
-            pool_id: pool.id,
-            token0_id: pool.token0_id,
-            token1_id: pool.token1_id,
-            owner: event.params.owner,
-            origin: event.transaction.from?.toLowerCase() || '',
-            amount: event.params.amount,
-            amount0: amount0,
-            amount1: amount1,
-            amountUSD: amountUSD,
-            tickLower: BigInt(event.params.tickLower),
-            tickUpper: BigInt(event.params.tickUpper),
-            logIndex: BigInt(event.logIndex)
-        };
+        // const burn: Burn = {
+        //     id: `${transaction.id}-${event.logIndex}`,
+        //     transaction_id: transaction.id,
+        //     timestamp: transaction.timestamp,
+        //     pool_id: pool.id,
+        //     token0_id: pool.token0_id,
+        //     token1_id: pool.token1_id,
+        //     owner: event.params.owner,
+        //     origin: event.transaction.from?.toLowerCase() || '',
+        //     amount: event.params.amount,
+        //     amount0: amount0,
+        //     amount1: amount1,
+        //     amountUSD: amountUSD,
+        //     tickLower: BigInt(event.params.tickLower),
+        //     tickUpper: BigInt(event.params.tickUpper),
+        //     logIndex: BigInt(event.logIndex)
+        // };
 
         if (lowerTickRO && upperTickRO) {
             const amount = event.params.amount;
@@ -128,6 +128,6 @@ UniswapV3Pool.Burn.handlerWithLoader({
         context.Token.set(token1);
         context.Pool.set(pool);
         context.Factory.set(factory);
-        context.Burn.set(burn);
+        // context.Burn.set(burn);
     }
 });

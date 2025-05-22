@@ -46,13 +46,13 @@ UniswapV3Pool.Collect.handlerWithLoader({
         const timestamp = event.block.timestamp;
 
         // burn entity
-        const transaction = await loadTransaction(
-            event.transaction.hash,
-            event.block.number,
-            timestamp,
-            event.transaction.gasPrice || ZERO_BI,
-            context
-        );
+        // const transaction = await loadTransaction(
+        //     event.transaction.hash,
+        //     event.block.number,
+        //     timestamp,
+        //     event.transaction.gasPrice || ZERO_BI,
+        //     context
+        // );
 
         // Get formatted amounts collected.
         const collectedAmountToken0 = convertTokenToDecimal(event.params.amount0, token0.decimals);
@@ -99,19 +99,19 @@ UniswapV3Pool.Collect.handlerWithLoader({
         factory.totalValueLockedETH = factory.totalValueLockedETH.plus(pool.totalValueLockedETH);
         factory.totalValueLockedUSD = factory.totalValueLockedETH.times(bundle.ethPriceUSD);
 
-        const collect = {
-            id: `${transaction.id}-${event.logIndex}`,
-            transaction_id: transaction.id,
-            timestamp: BigInt(timestamp),
-            pool_id: pool.id,
-            owner: event.params.owner.toLowerCase(),
-            amount0: collectedAmountToken0,
-            amount1: collectedAmountToken1,
-            amountUSD: trackedCollectedAmountUSD,
-            tickLower: event.params.tickLower,
-            tickUpper: event.params.tickUpper,
-            logIndex: BigInt(event.logIndex)
-        };
+        // const collect = {
+        //     id: `${transaction.id}-${event.logIndex}`,
+        //     transaction_id: transaction.id,
+        //     timestamp: BigInt(timestamp),
+        //     pool_id: pool.id,
+        //     owner: event.params.owner.toLowerCase(),
+        //     amount0: collectedAmountToken0,
+        //     amount1: collectedAmountToken1,
+        //     amountUSD: trackedCollectedAmountUSD,
+        //     tickLower: event.params.tickLower,
+        //     tickUpper: event.params.tickUpper,
+        //     logIndex: BigInt(event.logIndex)
+        // };
 
         intervalUpdates.updateUniswapDayData(timestamp, event.chainId, factory, context);
         intervalUpdates.updatePoolDayData(timestamp, pool, context);
@@ -125,6 +125,6 @@ UniswapV3Pool.Collect.handlerWithLoader({
         context.Token.set(token1);
         context.Pool.set(pool);
         context.Factory.set(factory);
-        context.Collect.set(collect);
+        // context.Collect.set(collect);
     },
 });

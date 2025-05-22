@@ -180,31 +180,31 @@ UniswapV3Pool.Swap.handlerWithLoader({
         token1.totalValueLockedUSD = token1.totalValueLocked.times(token1.derivedETH).times(bundle.ethPriceUSD);
 
         // create Swap event
-        const transaction = await loadTransaction(
-            event.transaction.hash,
-            event.block.number,
-            timestamp,
-            event.transaction.gasPrice || ZERO_BI,
-            context
-        );
+        // const transaction = await loadTransaction(
+        //     event.transaction.hash,
+        //     event.block.number,
+        //     timestamp,
+        //     event.transaction.gasPrice || ZERO_BI,
+        //     context
+        // );
 
-        const swap: Swap = {
-            id: `${transaction.id.toLowerCase()}-${event.logIndex}`,
-            transaction_id: transaction.id,
-            timestamp: transaction.timestamp,
-            pool_id: pool.id,
-            token0_id: pool.token0_id,
-            token1_id: pool.token1_id,
-            sender: event.params.sender,
-            origin: event.transaction.from?.toLowerCase() || '',
-            recipient: event.params.recipient,
-            amount0: amount0,
-            amount1: amount1,
-            amountUSD: amountTotalUSDTracked,
-            tick: event.params.tick,
-            sqrtPriceX96: event.params.sqrtPriceX96,
-            logIndex: BigInt(event.logIndex)
-        };
+        // const swap: Swap = {
+        //     id: `${transaction.id.toLowerCase()}-${event.logIndex}`,
+        //     transaction_id: transaction.id,
+        //     timestamp: transaction.timestamp,
+        //     pool_id: pool.id,
+        //     token0_id: pool.token0_id,
+        //     token1_id: pool.token1_id,
+        //     sender: event.params.sender,
+        //     origin: event.transaction.from?.toLowerCase() || '',
+        //     recipient: event.params.recipient,
+        //     amount0: amount0,
+        //     amount1: amount1,
+        //     amountUSD: amountTotalUSDTracked,
+        //     tick: event.params.tick,
+        //     sqrtPriceX96: event.params.sqrtPriceX96,
+        //     logIndex: BigInt(event.logIndex)
+        // };
 
         // interval data
         const uniswapDayData = { ...await intervalUpdates.updateUniswapDayData(timestamp, event.chainId, factory, context) };
@@ -250,7 +250,7 @@ UniswapV3Pool.Swap.handlerWithLoader({
         token1HourData.untrackedVolumeUSD = token1HourData.untrackedVolumeUSD.plus(amountTotalUSDTracked);
         token1HourData.feesUSD = token1HourData.feesUSD.plus(feesUSD);
 
-        context.Swap.set(swap);
+        // context.Swap.set(swap);
         context.TokenDayData.set(token0DayData);
         context.TokenDayData.set(token1DayData);
         context.UniswapDayData.set(uniswapDayData);
