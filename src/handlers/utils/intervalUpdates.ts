@@ -7,39 +7,8 @@ import {
     PoolDayData,
     PoolHourData,
     Token,
-    TokenDayData,
-    TokenHourData,
-    UniswapDayData,
 } from 'generated';
 
-export async function updateUniswapDayData(
-    timestamp: number,
-    chainId: number,
-    factory: Factory,
-    context: handlerContext
-): Promise<UniswapDayData> {
-    const dayNum = Math.floor(timestamp / 86400); // rounded
-    const dayStartTimestamp = dayNum * 86400;
-    const dayID = `${chainId}-${dayNum}`;
-    let uniswapDayDataRO = await context.UniswapDayData.get(dayID);
-    let uniswapDayData = uniswapDayDataRO ? {...uniswapDayDataRO} :
-                        {
-                          id: dayID,
-                          date: dayStartTimestamp,
-                          volumeETH: ZERO_BD,
-                          volumeUSD: ZERO_BD,
-                          volumeUSDUntracked: ZERO_BD,
-                          feesUSD: ZERO_BD,
-                          tvlUSD: ZERO_BD,
-                          txCount: ZERO_BI
-                        };
-
-    uniswapDayData.tvlUSD = factory.totalValueLockedUSD;
-    uniswapDayData.txCount = factory.txCount;
-
-    context.UniswapDayData.set(uniswapDayData);
-    return uniswapDayData;
-}
 
 export async function updatePoolDayData(
     timestamp: number, 
@@ -152,99 +121,4 @@ export async function updatePoolHourData(
     context.PoolHourData.set(poolHourData);
     // test
     return poolHourData as PoolHourData;
-}
-
-export async function updateTokenDayData(
-    timestamp: number, 
-    token: Token, 
-    bundle: Bundle,
-    context: handlerContext
-): Promise<TokenDayData> {
-    const dayID = Math.floor(timestamp / 86400);
-    const dayStartTimestamp = dayID * 86400;
-    const tokenDayID = `${token.id}-${dayID}`;
-    const tokenPrice = token.derivedETH.times(bundle.ethPriceUSD);
-    const tokenDayDataRO = await context.TokenDayData.get(tokenDayID);
-
-    let tokenDayData = tokenDayDataRO ? {...tokenDayDataRO} :
-                        {
-                            id: tokenDayID,
-                            date: dayStartTimestamp,
-                            token_id: token.id,
-                            volume: ZERO_BD,
-                            volumeUSD: ZERO_BD,
-                            feesUSD: ZERO_BD,
-                            untrackedVolumeUSD: ZERO_BD,
-                            open: tokenPrice,
-                            high: tokenPrice,
-                            low: tokenPrice,
-                            close: tokenPrice,
-                            priceUSD: ZERO_BD,
-                            openingPrice: ZERO_BD,
-                            totalValueLocked: ZERO_BD,
-                            totalValueLockedUSD: ZERO_BD
-                        };
-
-    if (tokenPrice.gt(tokenDayData.high)) {
-        tokenDayData.high = tokenPrice;
-    }
-
-    if (tokenPrice.lt(tokenDayData.low)) {
-        tokenDayData.low = tokenPrice;
-    }
-
-    tokenDayData.close = tokenPrice;
-    tokenDayData.priceUSD = token.derivedETH.times(bundle.ethPriceUSD);
-    tokenDayData.totalValueLocked = token.totalValueLocked;
-    tokenDayData.totalValueLockedUSD = token.totalValueLockedUSD;
-
-    context.TokenDayData.set(tokenDayData);
-    return tokenDayData as TokenDayData;
-}
-
-export async function updateTokenHourData(
-    timestamp: number,
-    token: Token,
-    bundle: Bundle,
-    context: handlerContext
-): Promise<TokenHourData> {
-    const hourIndex = Math.floor(timestamp / 3600); // get unique hour within unix history
-    const hourStartUnix = hourIndex * 3600; // want the rounded effect
-    const tokenPrice = token.derivedETH.times(bundle.ethPriceUSD);
-    const tokenHourID = `${token.id}-${hourIndex}`;
-    const tokenHourDataRO = await context.TokenHourData.get(tokenHourID);
-    const tokenHourData = tokenHourDataRO ? {...tokenHourDataRO} :
-                        {
-                          id: tokenHourID,
-                          periodStartUnix: hourStartUnix,
-                          token_id: token.id,
-                          volume: ZERO_BD,
-                          volumeUSD: ZERO_BD,
-                          untrackedVolumeUSD: ZERO_BD,
-                          feesUSD: ZERO_BD,
-                          open: tokenPrice,
-                          high: tokenPrice,
-                          low: tokenPrice,
-                          close: tokenPrice,
-                          priceUSD: ZERO_BD,
-                          openingPrice: ZERO_BD,
-                          totalValueLocked: ZERO_BD,
-                          totalValueLockedUSD: ZERO_BD
-                        };
-
-    if (tokenPrice.gt(tokenHourData.high)) {
-        tokenHourData.high = tokenPrice;
-    }
-
-    if (tokenPrice.lt(tokenHourData.low)) {
-        tokenHourData.low = tokenPrice;
-    }
-
-    tokenHourData.close = tokenPrice;
-    tokenHourData.priceUSD = tokenPrice;
-    tokenHourData.totalValueLocked = token.totalValueLocked;
-    tokenHourData.totalValueLockedUSD = token.totalValueLockedUSD;
-
-    context.TokenHourData.set(tokenHourData);
-    return tokenHourData as TokenHourData;
 }
